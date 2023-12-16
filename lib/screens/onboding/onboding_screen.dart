@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
+import '../../components/custom_animation_button.dart';
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -12,13 +14,19 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  late RiveAnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = OneShotAnimation("active", autoplay: false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Stack(
         children: [
-
           Positioned(
             width: MediaQuery.of(context).size.width * 1.7,
             bottom: 200,
@@ -39,63 +47,47 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: const SizedBox(),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 230,
-                  child: Text(
-                    "Learn design & code",
-                    style: TextStyle(
-                        fontSize: 60, height: 1.2, fontFamily: "Poppins"),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  const SizedBox(
+                    width: 260,
+                    child: Text(
+                      "Learn design & code",
+                      style: TextStyle(
+                        fontSize: 60,
+                        height: 1.2,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  "Flutter is an open source framework by Google for building beautiful, natively compiled, multi-platform applications from a single codebase.",
-                ),
-                Spacer(flex: 2,),
-                Stack(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: RiveAnimation.asset(
-                        "assets/RiveAssets/button.riv",
-                      ),
-                    ),
-
-
-                    Positioned(
-                      top: 15,
-                      left: 25,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(CupertinoIcons.arrow_right),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Start the course",
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const Text(
                     "Flutter is an open source framework by Google for building beautiful, natively compiled, multi-platform applications from a single codebase.",
                   ),
-                ),
-              ],
+                  const Spacer(
+                    flex: 2,
+                  ),
+                  CustomAnimatedButton(
+                    animationController: _animationController,
+                    press: () {
+                      _animationController.isActive = true;
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32.0),
+                    child: Text(
+                      "Flutter is an open source framework by Google for building beautiful, natively compiled, multi-platform applications from a single codebase.",
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
